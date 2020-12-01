@@ -1,5 +1,6 @@
 const fs = require('fs');
 const solutionArg = process.argv[2];
+const isForce = process.argv[3] === 'force';
 
 if (!solutionArg) {
    console.log('Provide a number or number-number arg.\n For example: "npm run solution 1" or "npm run solution 7-2"');
@@ -23,8 +24,8 @@ if (args.length == 1) {
    console.log(solutionRunner.runPart2(input));
 } else {
    const oneOrTwo = args[1];
-   if (oneOrTwo != 1 && oneOrTwo != 2) {
-      console.log('Number after dash must be 1 or 2');
+   if (oneOrTwo != 1 && oneOrTwo != 2 && !isForce) {
+      console.log('Number after dash must be 1 or 2. Make next arg `force` to override this.');
       process.exit();
    }
    console.log(solutionRunner[`runPart${oneOrTwo}`](input));
