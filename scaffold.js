@@ -1,7 +1,7 @@
 const fs = require('fs');
 const range = require('./utils/range');
 
-range(1, 32).forEach(i => {
+range(1, 26).forEach(i => {
    const paddedDay = i < 10 ? `0${i}` : `${i}`;
    const folderPath = `./${paddedDay}`;
    if (!fs.existsSync(folderPath)){
