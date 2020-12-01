@@ -3,7 +3,8 @@
     "test": "node testRunner.js",
     "solution": "node --max-old-space-size=32000 solutionRunner.js",
     "lint": "eslint ./**/*.js",
-    "lint-fix": "eslint ./**/*.js --fix"
+    "lint-fix": "eslint ./**/*.js --fix",
+    "scaffold": "node scaffold.js"
   },
   "dependencies": {
     "jest": "^24.9.0"
