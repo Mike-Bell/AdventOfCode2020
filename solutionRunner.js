@@ -13,7 +13,7 @@ if (day.length == 1) {
    day = `0${day}`;
 }
 
-let input = fs.readFileSync(`./inputs/input${day}.txt`, 'utf8');
+let input = fs.readFileSync(`./${day}/input.txt`, 'utf8');
 const solutionRunner = require(`./${day}/solution.js`);
 if (solutionRunner.parseInput) {
    input = solutionRunner.parseInput(input);
