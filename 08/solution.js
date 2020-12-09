@@ -3,7 +3,7 @@ const parseInput = input => input.split('\r\n').map(line => line.split(' ')).map
 const createMachine = instructions => {
    let acc = 0;
    let i = 0;
-   const linesRun = [];
+   const linesRun = new Set();
    const ops = {
       'acc': val => {
          acc += val;
@@ -18,7 +18,7 @@ const createMachine = instructions => {
    };
 
    const runCurrentLine = () => {
-      linesRun.push(i);
+      linesRun.add(i);
       const [op, n] = instructions[i];
       ops[op](n);
       return {acc, i};
@@ -33,9 +33,9 @@ const runPart1 = lines => {
    const machine = createMachine(lines);
 
    while (true) {
-      const {i ,acc} = machine.runCurrentLine();
+      const {i, acc} = machine.runCurrentLine();
 
-      if (machine.getLinesRun().includes(i)) {
+      if (machine.getLinesRun().has(i)) {
          return acc;
       }
    }
@@ -48,10 +48,9 @@ const runPart2 = lines => {
          continue;
       }
 
-      const linesCopy = JSON.parse(JSON.stringify(lines));
-      linesCopy[i][0] = codeToMutate === 'jmp' ? 'nop' : 'jmp';
+      lines[i][0] = codeToMutate === 'jmp' ? 'nop' : 'jmp';
 
-      const machine = createMachine(linesCopy);
+      const machine = createMachine(lines);
       while (true) {
          const {i, acc} = machine.runCurrentLine();
 
@@ -59,10 +58,12 @@ const runPart2 = lines => {
             return acc;
          }
 
-         if (machine.getLinesRun().includes(i)) {
+         if (machine.getLinesRun().has(i)) {
             break;
          }
       }
+
+      lines[i][0] = codeToMutate;
    }
 };
 
