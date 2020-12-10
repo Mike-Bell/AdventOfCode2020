@@ -10,31 +10,25 @@ const runPart1 = nums => {
    return difs[1] * difs[3];
 };
 
-const recurse = (nums, i, last, cache) => {
-   if (nums[i] > last + 3 || i >= nums.length) {
-      return 0;
-   }
-
+const recurse = (nums, i, cache) => {
    if (i === nums.length - 1) {
       return 1;
    }
 
-   let sum = 0;
-   cache[i] = cache[i] || [-1, -1, -1];
-   [1, 2, 3].forEach(j => {
-      const cachedVal = cache[i][j - 1];
-      if (cachedVal === -1) {
-         cache[i][j - 1] = recurse(nums, i + j, nums[i], cache);
-      }
-      sum += cache[i][j - 1];
-   });
-   return sum;
+   if (cache[i] === -1) {
+      cache[i] = [1, 2, 3]
+         .filter(j => j < nums.length && nums[i + j] <= nums[i] + 3)
+         .map(j => recurse(nums, i + j, cache))
+         .reduce((acc, curr) => acc + curr, 0);
+   }
+
+   return cache[i];
 };
 
 const runPart2 = nums => {
    nums = [0, ...nums].sort((a, b) => a - b);
    nums.push(nums[nums.length - 1] + 3);
-   return recurse(nums, 0, 0, {});
+   return recurse(nums, 0, nums.map(() => -1));
 }
 
 module.exports = {parseInput, runPart1, runPart2};
