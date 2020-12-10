@@ -17,7 +17,7 @@ const recurse = (nums, i, cache) => {
 
    if (cache[i] === -1) {
       cache[i] = [1, 2, 3]
-         .filter(j => j < nums.length && nums[i + j] <= nums[i] + 3)
+         .filter(j => nums[i + j] <= nums[i] + 3)
          .map(j => recurse(nums, i + j, cache))
          .reduce((acc, curr) => acc + curr, 0);
    }
