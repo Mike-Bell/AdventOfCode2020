@@ -20,22 +20,20 @@ const runPart1 = inpts => {
 
 const runPart2 = inpts => {
    const nums = [...inpts];
-   const lasts = {};
+   const lasts = new Map();
    for (let i = 0; i < nums.length; i++) {
-      lasts[nums[i]] = i;
+      lasts.set(nums[i], i);
    }
 
    let lastNum = nums[nums.length - 1];
    for (let i = nums.length; true; i++) {
-      if (i % 100000 === 0) {
-         console.debug(i);
-      }
-
-      if (lasts[lastNum] === undefined) {
-         lasts[lastNum] = i - 1;
+      if (!lasts.has(lastNum)) {
+         lasts.set(lastNum, i - 1);
          lastNum = 0;
       } else {
-         [lasts[lastNum], lastNum] = [i - 1, i - 1 - lasts[lastNum]];
+         const tmp = lasts.get(lastNum);
+         lasts.set(lastNum, i - 1);
+         lastNum = i - 1 - tmp;
       }
       
       if (i + 1 === 30000000) {
